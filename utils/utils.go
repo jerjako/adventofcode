@@ -21,11 +21,15 @@ func ReadLines(year, day int, testInput bool) []string {
 	return strings.Split(string(chars), "\n")
 }
 
-func Atoi(s string) int {
+func ToInt(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
 		panic(err)
 	}
 
 	return i
+}
+
+func ToString(i int) string {
+	return strconv.Itoa(i)
 }

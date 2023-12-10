@@ -2,58 +2,35 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"slices"
 	"strconv"
-	"strings"
+
+	"github.com/jerjako/adventofcode/utils"
 )
 
-const (
-	v  = true
-	vv = true
-)
-
-func main() {
-	chars, err := os.ReadFile("./2023/9/input.txt")
-	if err != nil {
-		panic(err)
-	}
-	lines := strings.Split(string(chars), "\n")
-
+func part1(lines []string) string {
 	r1 := regexp.MustCompile(`(?m)(\-?\d+)`)
 
 	total := 0
 	for _, line := range lines {
-		if vv {
-			fmt.Println(line)
-		}
 		ss := r1.FindAllString(line, -1)
 
 		nn := make([]int, len(ss))
 		for i, n := range ss {
 			nn[i], _ = strconv.Atoi(n)
 		}
-		nextN := madameIrma(nn)
-		if v {
-			fmt.Println(line, " >> ", nextN)
-		}
+		nextN := madameIrmaPart1(nn)
 		total += nextN
 	}
-	fmt.Println("Total: ", total)
+	return utils.ToString(total)
 }
 
-func madameIrma(line []int) int {
+func madameIrmaPart1(line []int) int {
 	prevision := 0
 	for {
 		prevision += line[len(line)-1]
-		if vv {
-			fmt.Println("before: ", line)
-		}
-		line = calculateLinesDiff(line)
-		if vv {
-			fmt.Println("after: ", line)
-		}
+		line = calculateLinesDiffPart1(line)
 
 		if slices.Max(line) == 0 && slices.Min(line) == 0 {
 			break
@@ -63,7 +40,7 @@ func madameIrma(line []int) int {
 	return prevision
 }
 
-func calculateLinesDiff(line []int) []int {
+func calculateLinesDiffPart1(line []int) []int {
 	newLine := make([]int, len(line)-1)
 	for i := 1; i < len(line); i++ {
 		newLine[i-1] = line[i] - line[i-1]
@@ -71,7 +48,60 @@ func calculateLinesDiff(line []int) []int {
 	return newLine
 }
 
-// 2148393188 too high
-// 1789635360 too high
-// 653688137 too low
-// 1789635132
+func part2(lines []string) string {
+	r1 := regexp.MustCompile(`(?m)(\-?\d+)`)
+
+	total := 0
+	for _, line := range lines {
+		ss := r1.FindAllString(line, -1)
+
+		nn := make([]int, len(ss))
+		for i, n := range ss {
+			nn[i], _ = strconv.Atoi(n)
+		}
+		previousN := madameIrmaPart2(nn)
+		total += previousN
+	}
+	return utils.ToString(total)
+}
+
+func madameIrmaPart2(line []int) int {
+	allNewLines := [][]int{0: line}
+
+	for {
+		line = calculateLinesDiffPart2(line)
+		allNewLines = append(allNewLines, line)
+
+		if slices.Max(line) == 0 && slices.Min(line) == 0 {
+			break
+		}
+	}
+
+	slices.Reverse(allNewLines)
+	for i, line := range allNewLines {
+		if i == 0 {
+			allNewLines[i] = append([]int{0}, line...)
+		} else {
+			allNewLines[i] = append([]int{line[0] - allNewLines[i-1][0]}, line...)
+		}
+	}
+	return allNewLines[len(allNewLines)-1][0]
+}
+
+func calculateLinesDiffPart2(line []int) []int {
+	newLine := make([]int, len(line)-1)
+	for i := 1; i < len(line); i++ {
+		newLine[i-1] = line[i] - line[i-1]
+	}
+	return newLine
+}
+
+func main() {
+	lines, doPart1, doPart2 := utils.RunDay()
+	if doPart1 {
+		fmt.Println("result: ", part1(lines))
+	}
+	if doPart2 {
+		fmt.Println("result: ", part2(lines))
+	}
+}

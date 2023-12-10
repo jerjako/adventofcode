@@ -47,12 +47,12 @@ func main() {
 		var cmdOut, cmdErr bytes.Buffer
 		cmd.Stdout = &cmdOut
 		cmd.Stderr = &cmdErr
-
-		if err := cmd.Run(); err != nil {
-			panic(err)
-		}
+		err := cmd.Run()
 		if cmdErr.String() != "" {
 			panic(cmdErr.String())
+		}
+		if err != nil {
+			panic(err)
 		}
 
 		log.Print(cmdOut.String())
