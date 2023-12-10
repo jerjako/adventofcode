@@ -1,4 +1,4 @@
-#### Advent of code - jerjako
+#### [Advent of code](https://adventofcode.com/) - jerjako
 
 *Not optimized code, just for fun*
 
