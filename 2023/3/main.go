@@ -165,7 +165,7 @@ func isNumberPart1(c byte) bool {
 }
 
 func checkSymbolAroundPart1(m map[int]map[int]int, x, y int, activeNumberValid *bool) {
-	if *activeNumberValid == true {
+	if *activeNumberValid {
 		return
 	}
 
@@ -178,12 +178,10 @@ func checkSymbolAroundPart1(m map[int]map[int]int, x, y int, activeNumberValid *
 	checkSymbolPart1(m, x+1, y-1, activeNumberValid)
 	checkSymbolPart1(m, x+1, y, activeNumberValid)
 	checkSymbolPart1(m, x+1, y+1, activeNumberValid)
-
-	return
 }
 
 func checkSymbolPart1(m map[int]map[int]int, x, y int, activeNumberValid *bool) {
-	if *activeNumberValid == true {
+	if *activeNumberValid {
 		return
 	}
 
@@ -193,8 +191,6 @@ func checkSymbolPart1(m map[int]map[int]int, x, y int, activeNumberValid *bool) 
 			return
 		}
 	}
-
-	return
 }
 
 func isNumberPart2(c byte) bool {
@@ -202,7 +198,7 @@ func isNumberPart2(c byte) bool {
 }
 
 func checkSymbolAroundPart2(m map[int]map[int]int, x, y int, activeNumberValid *bool) string {
-	if *activeNumberValid == true {
+	if *activeNumberValid {
 		return ""
 	}
 
@@ -236,7 +232,7 @@ func checkSymbolAroundPart2(m map[int]map[int]int, x, y int, activeNumberValid *
 }
 
 func checkSymbolPart2(m map[int]map[int]int, x, y int, activeNumberValid *bool) bool {
-	if *activeNumberValid == true {
+	if *activeNumberValid {
 		return true
 	}
 

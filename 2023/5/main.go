@@ -160,7 +160,6 @@ func part2(lines []string) string {
 		if lowest == 0 || newLowest < lowest {
 			lowest = newLowest
 		}
-		subData = []int{}
 	}
 
 	return "closest: " + utils.ToString(int(lowest))

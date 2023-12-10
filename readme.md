@@ -3,6 +3,9 @@
 *Not optimized code, just for fun*
 
 ```
+# Init the current day folder YYYY/DD with minimal go file:
+go run main.go -init
+
 # Start both part for the current day:
 go run main.go
 

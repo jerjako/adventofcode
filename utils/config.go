@@ -13,6 +13,7 @@ type Config struct {
 	Part2 bool
 
 	TestInput bool
+	Init      bool
 }
 
 func ParseConfig() Config {
@@ -24,6 +25,7 @@ func ParseConfig() Config {
 	part2 := flag.Bool("part2", false, "Part 2")
 
 	testInput := flag.Bool("test", false, "Test input")
+	init := flag.Bool("init", false, "Bootstrap a new day")
 	flag.Parse()
 
 	if !*part1 && !*part2 {
@@ -39,5 +41,6 @@ func ParseConfig() Config {
 		Part2: *part2,
 
 		TestInput: *testInput,
+		Init:      *init,
 	}
 }

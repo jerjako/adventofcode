@@ -137,8 +137,6 @@ func part2(lines []string) string {
 		i++
 	}
 
-	steps = 0
-
 	slices.Sort(nodesSteps)
 
 	result := 0

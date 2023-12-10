@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"time"
 
@@ -18,6 +19,34 @@ var partColor = map[int]utils.Color{
 func main() {
 	now := time.Now().UTC()
 	config := utils.ParseConfig()
+
+	if config.Init {
+		utils.LogColor(utils.Red, fmt.Sprintf("Create %d/%d", config.Year, config.Day))
+
+		_, err := os.Stat(fmt.Sprintf("./%d/%d/", config.Year, config.Day))
+		if err == nil {
+			panic("Folder already exist")
+		} else if !os.IsNotExist(err) {
+			panic(err)
+		}
+
+		cmd := exec.Command("cp", "--recursive", "./day_example", fmt.Sprintf("./%d/%d", config.Year, config.Day))
+
+		var cmdOut, cmdErr bytes.Buffer
+		cmd.Stdout = &cmdOut
+		cmd.Stderr = &cmdErr
+		err = cmd.Run()
+		if cmdErr.String() != "" {
+			panic(cmdErr.String())
+		}
+		if err != nil {
+			panic(err)
+		}
+
+		utils.LogColor(utils.Red, fmt.Sprintf("Created %s", cmdOut.String()))
+
+		os.Exit(1)
+	}
 
 	utils.LogColor(utils.Purple, fmt.Sprintf("Running day %d of year %d", config.Day, config.Year))
 	defer func() { utils.LogColor(utils.Purple, fmt.Sprintf("End day %d after: %s", config.Day, time.Since(now))) }()
